@@ -1,0 +1,12 @@
+network:
+  name: network
+  username: admin
+  password: cisco
+  connection_options:
+    netmiko:
+      platform: cisco_ios
+
+switches:
+  name: switches
+  groups:
+    - network

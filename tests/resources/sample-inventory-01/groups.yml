@@ -5,7 +5,8 @@ network:
   connection_options:
     netmiko:
       platform: cisco_ios
-
+      extras:
+        ssh_config_file: '/home/mhudec/Develop/GitHub/net_nornir/tests/resources/sample-inventory-01/ssh_config.conf'
 switches:
   name: switches
   groups:

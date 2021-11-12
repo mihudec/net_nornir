@@ -1,19 +1,17 @@
 import unittest
 
-from nornir.core.inventory import Inventory, Host, Group
-from nornir import InitNornir
-from nornir_netmiko import netmiko_send_command
-from nornir_utils.plugins.functions import print_result
-from netmiko import ConnectHandler
 
-from net_nornir.tasks import netmiko_get_config
-from net_nornir.utils.common import inventory_validate_interfaces
 from tests import NetNornirTest
 
+from nornir import InitNornir
 
-class TestInit(NetNornirTest):
 
-    def test_direct_init(self):
+from net_nornir.utils import query_raw_params
+from net_nornir.tasks import template_generic
+
+class TestTemplate(NetNornirTest):
+
+    def get_nr(self):
         INVENTORY_DIR = self.RESOURCES_DIR.joinpath('sample-inventory-01')
         ssh_config_path = INVENTORY_DIR.joinpath('ssh_config.conf')
         nr = InitNornir(
@@ -32,14 +30,22 @@ class TestInit(NetNornirTest):
                 }
             }
         )
+        return nr
 
-        inventory_validate_interfaces(nr.inventory)
-        print(nr.inventory.hosts['CSW'].data['interfaces'])
-        print(nr.inventory.hosts['CSW'].data['interfaces']['Vlan1'])
-        result = nr.run(netmiko_send_command, command_string='show version')
-        print(result['CSW'][0])
-        config_result = nr.run(netmiko_get_config)
-        print_result(config_result)
+
+    # def test_query_params(self):
+    #     nr = self.get_nr()
+    #     host = nr.inventory.hosts['CSW']
+    #     nr = nr.filter(name='CSW')
+    #     print(nr.inventory.hosts)
+    #     result = nr.run(query_raw_params, expression="interfaces.Vlan1")
+    #     print(result['CSW'][0])
+
+
+    def test_template_config(self):
+        nr = self.get_nr()
+        
+        result = nr.run(template_generic, template_name='ios_interfaces.j2', params_spec={'params': 'interfaces'})
 
 
 if __name__ == '__main__':

@@ -1,2 +1,8 @@
 nornir
 nornir_netmiko
+nornir_utils
+jmespath
+pyyaml
+jinja2
+pydantic
+diffsync

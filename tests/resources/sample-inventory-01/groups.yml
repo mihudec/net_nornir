@@ -11,3 +11,10 @@ switches:
   name: switches
   groups:
     - network
+  data:
+    CONFIG_DEFAULTS:
+      PLATFORM_CDP_DEFAULT_ON: true
+      PLATFORM_LLDP_DEFAULT_ON: false
+      INTERFACES_DEFAULT_NO_SHUTDOWN: true
+      INTERFACES_DEFAULT_CDP_ENABLED: true
+      INTERFACES_DEFAULT_LLDP_ENABLED: true
